@@ -1,0 +1,94 @@
+﻿<Window x:Class="paint.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:paint"
+        mc:Ignorable="d"
+        WindowState="Maximized" Title="Malevich" Height="768" Width="1366">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0" Padding="5" Background="SlateGray" Foreground="White">
+            <MenuItem Header="Файл">
+                
+            </MenuItem>
+            <MenuItem Header="Редактирование">
+
+            </MenuItem>
+            <MenuItem Header="Изображение">
+
+            </MenuItem>
+            <MenuItem Header="Слои">
+
+            </MenuItem>
+            <MenuItem Header="Текст">
+
+            </MenuItem>
+            <MenuItem Header="Выделение">
+
+            </MenuItem>
+            <MenuItem Header="Фильтр">
+
+            </MenuItem>
+            <MenuItem Header="3D">
+
+            </MenuItem>
+            <MenuItem Header="Просмотр">
+
+            </MenuItem>
+            <MenuItem Header="Окно">
+
+            </MenuItem>
+            <MenuItem Header="Справка">
+
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="SlateGray" Orientation="Horizontal">
+            <TextBlock Foreground="White" Margin="10" Text="Домой" />
+            <TextBlock Foreground="White" Margin="10" Text="Перемещение" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <ScrollViewer>
+                <StackPanel x:Name="tools" Width="50"  Background="SlateGray">
+                    <TextBlock x:Name="startActiveTool" Foreground="White" Margin="5" Text="Перемещение" Background="DarkSlateGray" Height="35" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Выделение" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Лассо" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Волшебная палочка" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кадрировать" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Квадрат" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Пипетка" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Восстанавливающая кисть" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кисть" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Штамп" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кисть истории" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Ластик" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Заливка" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Палец" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Освещение" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Перо" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Текст" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Курсор" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Фигуры" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Рука" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Лупа" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Дололнительно" MouseUp="SetActiveTool" />
+                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Перекл. цвета" MouseUp="SetActiveTool" />
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Width="1316" Background="DarkSlateGray">
+                <Viewbox MouseWheel="SetZoomHandler" Height="650" Width="1316" Stretch="Fill" x:Name="zoom">
+                    <Canvas x:Name="canvas" ClipToBounds="True" Width="500" Height="500" Cursor="Pen" Margin="50, 75" Background="White" MouseDown="BrushDownHandler" MouseMove="BrushMoveHandler" MouseUp="BrushUpHandler">
+
+                    </Canvas>
+                </Viewbox>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

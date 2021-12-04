@@ -1,0 +1,15 @@
+C:\wpfprojects\paint\bin\Debug\paint.exe.config
+C:\wpfprojects\paint\bin\Debug\paint.exe
+C:\wpfprojects\paint\bin\Debug\paint.pdb
+C:\wpfprojects\paint\obj\Debug\paint.csprojAssemblyReference.cache
+C:\wpfprojects\paint\obj\Debug\MainWindow.g.cs
+C:\wpfprojects\paint\obj\Debug\App.g.cs
+C:\wpfprojects\paint\obj\Debug\paint_MarkupCompile.cache
+C:\wpfprojects\paint\obj\Debug\paint_MarkupCompile.lref
+C:\wpfprojects\paint\obj\Debug\MainWindow.baml
+C:\wpfprojects\paint\obj\Debug\paint.g.resources
+C:\wpfprojects\paint\obj\Debug\paint.Properties.Resources.resources
+C:\wpfprojects\paint\obj\Debug\paint.csproj.GenerateResource.cache
+C:\wpfprojects\paint\obj\Debug\paint.csproj.CoreCompileInputs.cache
+C:\wpfprojects\paint\obj\Debug\paint.exe
+C:\wpfprojects\paint\obj\Debug\paint.pdb
