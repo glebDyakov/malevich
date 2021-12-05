@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:paint"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
         WindowState="Maximized" Title="Malevich" Height="768" Width="1366">
     <Grid>
@@ -193,7 +194,7 @@
                     <TextBlock ToolTip="Рука" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">    
                         <Image Height="25" Margin="5">
                             <Image.Source>
-                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/finger_tool.png"></BitmapImage>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/hand_tool.png"></BitmapImage>
                             </Image.Source>
                         </Image>
                     </TextBlock>
@@ -207,23 +208,32 @@
                     <TextBlock ToolTip="Дололнительно" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
                         <Image Height="25" Margin="5">
                             <Image.Source>
-                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/brush_tool.png"></BitmapImage>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/more_tool.png"></BitmapImage>
                             </Image.Source>
                         </Image>
                     </TextBlock>
+                    <syncfusion:ColorPickerPalette x:Name="colorPickerPalette" 
+                        SelectedBrushChanged="ColorOfPageHandler"
+                        Width="60" 
+                        Height="40" />
                     <TextBlock ToolTip="Перекл. цвета" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
                         <Image Height="25" Margin="5">
                             <Image.Source>
-                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/brush_tool.png"></BitmapImage>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/switch_color_tool.png"></BitmapImage>
                             </Image.Source>
                         </Image>
                     </TextBlock>
                 </StackPanel>
             </ScrollViewer>
-            <StackPanel MouseWheel="SetZoomHandler" Width="1316" Background="DarkSlateGray">
+            <StackPanel x:Name="workSpace" MouseWheel="SetZoomHandler" Width="1316" Background="DarkSlateGray">
                 <Viewbox Height="650" Width="1316" Stretch="Fill" x:Name="zoom">
                     <Canvas x:Name="canvas" ClipToBounds="True" Width="500" Height="500" Cursor="Pen" Margin="50, 75" Background="White" MouseDown="BrushDownHandler" MouseMove="BrushMoveHandler" MouseUp="BrushUpHandler">
-
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="st" />
+                                <TranslateTransform x:Name="translate" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
                     </Canvas>
                 </Viewbox>
             </StackPanel>

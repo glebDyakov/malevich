@@ -13,3 +13,17 @@ C:\wpfprojects\paint\obj\Debug\paint.csproj.GenerateResource.cache
 C:\wpfprojects\paint\obj\Debug\paint.csproj.CoreCompileInputs.cache
 C:\wpfprojects\paint\obj\Debug\paint.exe
 C:\wpfprojects\paint\obj\Debug\paint.pdb
+C:\wpfprojects\paint\bin\Debug\Syncfusion.Core.XForms.dll
+C:\wpfprojects\paint\bin\Debug\Syncfusion.Licensing.dll
+C:\wpfprojects\paint\bin\Debug\Syncfusion.Shared.WPF.dll
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Core.dll
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Platform.dll
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Xaml.dll
+C:\wpfprojects\paint\bin\Debug\Syncfusion.Core.XForms.xml
+C:\wpfprojects\paint\bin\Debug\Syncfusion.Shared.WPF.xml
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Core.pdb
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Core.xml
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Xaml.pdb
+C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Xaml.xml
+C:\wpfprojects\paint\obj\Debug\XamlC.stamp
+C:\wpfprojects\paint\obj\Debug\paint.csproj.CopyComplete
