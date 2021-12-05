@@ -27,3 +27,9 @@ C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Xaml.pdb
 C:\wpfprojects\paint\bin\Debug\Xamarin.Forms.Xaml.xml
 C:\wpfprojects\paint\obj\Debug\XamlC.stamp
 C:\wpfprojects\paint\obj\Debug\paint.csproj.CopyComplete
+C:\wpfprojects\paint\obj\Debug\Dialogs\GaussFilterDialog.g.cs
+C:\wpfprojects\paint\obj\Debug\Dialogs\GaussFilterDialog.baml
+C:\wpfprojects\paint\obj\Debug\Dialogs\CanvasSizeDialog.g.cs
+C:\wpfprojects\paint\obj\Debug\Dialogs\CanvasSizeDialog.baml
+C:\wpfprojects\paint\obj\Debug\Dialogs\LayersDialog.g.cs
+C:\wpfprojects\paint\obj\Debug\Dialogs\LayersDialog.baml

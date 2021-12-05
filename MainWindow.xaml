@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:paint"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
-        WindowState="Maximized" Title="Malevich" Height="768" Width="1366">
+        WindowState="Maximized" Title="Malevich" Height="768" Width="1366" KeyDown="HandSwitchHander" KeyUp="GlobalHotKeyHandler">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
@@ -24,19 +24,19 @@
 
             </MenuItem>
             <MenuItem Header="Изображение">
-
+                <MenuItem Foreground="Black"  Header="Размер холста" Click="OpenCanvasSizeDialogHandler" />
             </MenuItem>
             <MenuItem Header="Слои">
-
+                <MenuItem Foreground="Black"  Header="Новый слой" Click="CreateLayerHandler" />
             </MenuItem>
             <MenuItem Header="Текст">
 
             </MenuItem>
             <MenuItem Header="Выделение">
-
+                <MenuItem Foreground="Black"  Header="Выделить все" Click="SelectAllHandler" />
             </MenuItem>
             <MenuItem Header="Фильтр">
-
+                <MenuItem Foreground="Black"  Header="Размытие по Гассу" Click="OpenBlurDialog" />
             </MenuItem>
             <MenuItem Header="3D">
 
@@ -45,7 +45,7 @@
 
             </MenuItem>
             <MenuItem Header="Окно">
-
+                <MenuItem Foreground="Black"  Header="Слои" Click="OpenLayersDialogHandler" />
             </MenuItem>
             <MenuItem Header="Справка">
 
@@ -58,8 +58,8 @@
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <ScrollViewer>
                 <StackPanel x:Name="tools" Width="50"  Background="SlateGray">
-                    <TextBlock x:Name="startActiveTool" ToolTip="Перемещение" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
-                        <Image Height="25" Margin="5">
+                    <TextBlock x:Name="startActiveTool" Background="DarkSlateGray" ToolTip="Перемещение" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5" Width="29">
                             <Image.Source>
                                 <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/move_tool.png"></BitmapImage>
                             </Image.Source>

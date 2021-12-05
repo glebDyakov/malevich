@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,6 +37,10 @@ namespace paint
         public PathSegmentCollection pathSegmentCollection;
         public BezierSegment bezierSegment;
         public  Point previousPoint;
+        public List<Int32> layers;
+        public bool isHand = false;
+        public TextBlock lastTool;
+        public SpeechSynthesizer debugger;
 
         public MainWindow()
         {
@@ -46,6 +51,10 @@ namespace paint
             activeTool = startActiveTool;
             foreGroundColor = System.Windows.Media.Brushes.Black;
             backGroundColor = System.Windows.Media.Brushes.White;
+            layers = new List<Int32>() {
+                0
+            };
+            debugger = new SpeechSynthesizer();
         }
 
         private void BrushMoveHandler(object sender, MouseEventArgs e)
@@ -104,7 +113,7 @@ namespace paint
             }
             if (activeTool.ToolTip.ToString() == "Заливка")
             {
-                canvas.Background = System.Windows.Media.Brushes.Red;
+                canvas.Background = foreGroundColor;
             } else if (activeTool.ToolTip.ToString() == "Выделение")
             {
                 canvas.Children.Remove(selection);
@@ -388,6 +397,623 @@ namespace paint
         private void ColorOfPageHandler(object sender, Syncfusion.Windows.Tools.Controls.SelectedBrushChangedEventArgs e)
         {
             foreGroundColor = e.NewBrush;
+        }
+
+        private void OpenBlurDialog(object sender, RoutedEventArgs e)
+        {
+            Dialogs.GaussFilterDialog gaussFilterDialog = new Dialogs.GaussFilterDialog(canvas);
+            gaussFilterDialog.Show();
+        }
+
+        private void CreateLayerHandler(object sender, RoutedEventArgs e)
+        {
+            layers.Add(layers.Count);
+            debugger.Speak(layers.Count.ToString());
+        }
+
+        private void GlobalHotKeyHandler(object sender, KeyEventArgs e)
+        {
+            /*
+             * Выбор инструментов начало
+             */
+            if (e.Key == Key.B)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Кисть")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.Pen;
+                activeTool = currentTool;
+            } else if (e.Key == Key.E)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Ластик")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                if (currentTool.ToolTip.ToString() == "Ластик")
+                {
+                    canvas.Cursor = Cursors.UpArrow;
+                }
+                else if (currentTool.ToolTip.ToString() == "Рука")
+                {
+                    canvas.Cursor = Cursors.Hand;
+                }
+                else if (currentTool.ToolTip.ToString() == "Заливка")
+                {
+                    canvas.Cursor = Cursors.AppStarting;
+                }
+                else if (currentTool.ToolTip.ToString() == "Дополнительно")
+                {
+                    canvas.Cursor = Cursors.ArrowCD;
+                }
+                else if (currentTool.ToolTip.ToString() == "Лупа")
+                {
+                    canvas.Cursor = Cursors.No;
+                }
+                else if (currentTool.ToolTip.ToString() == "Фигуры")
+                {
+                    canvas.Cursor = Cursors.None;
+                }
+                else if (currentTool.ToolTip.ToString() == "Текст")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Переключить цвета")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Курсор")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Палец")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Освещение")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Кисть истории")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Восстанавливающая кисть")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Пипетка")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Квадрат")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Выделение")
+                {
+                    canvas.Cursor = Cursors.SizeWE;
+                }
+                else if (currentTool.ToolTip.ToString() == "Кадрировать")
+                {
+                    canvas.Cursor = Cursors.SizeAll;
+                }
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.E)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Ластик")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.UpArrow;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.H)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Рука")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.Hand;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.G)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Заливка")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.AppStarting;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.Z)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Лупа")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.No;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.U)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Фигуры")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.None;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.T)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Текст")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.X)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Переключить цвета")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.A)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Курсор")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.O)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Освещение")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.Y)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Кисть истории")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.J)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Восстанавливающая кисть")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.I)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Пипетка")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.K)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Квадрат")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.IBeam;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.M)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Выделение")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeWE;
+                activeTool = currentTool;
+            }
+            else if (e.Key == Key.C)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Кадрировать")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.W)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Волшебная палочка")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.P)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Перо")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.S)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Штамп")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.L)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Лассо")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.V)
+            {
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Перемещение")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.SizeAll;
+                activeTool = currentTool;
+            } else if (e.Key == Key.Space)
+            {
+                isHand = false;
+                TextBlock currentTool = lastTool;
+                activeTool = lastTool;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                if (currentTool.ToolTip.ToString() == "Кисть")
+                {
+                    canvas.Cursor = Cursors.Pen;
+                }
+                else if (currentTool.ToolTip.ToString() == "Ластик")
+                {
+                    canvas.Cursor = Cursors.UpArrow;
+                }
+                else if (currentTool.ToolTip.ToString() == "Рука")
+                {
+                    canvas.Cursor = Cursors.Hand;
+                }
+                else if (currentTool.ToolTip.ToString() == "Заливка")
+                {
+                    canvas.Cursor = Cursors.AppStarting;
+                }
+                else if (currentTool.ToolTip.ToString() == "Дополнительно")
+                {
+                    canvas.Cursor = Cursors.ArrowCD;
+                }
+                else if (currentTool.ToolTip.ToString() == "Лупа")
+                {
+                    canvas.Cursor = Cursors.No;
+                }
+                else if (currentTool.ToolTip.ToString() == "Фигуры")
+                {
+                    canvas.Cursor = Cursors.None;
+                }
+                else if (currentTool.ToolTip.ToString() == "Текст")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Переключить цвета")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Курсор")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Палец")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Освещение")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Кисть истории")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Восстанавливающая кисть")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Пипетка")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Квадрат")
+                {
+                    canvas.Cursor = Cursors.IBeam;
+                }
+                else if (currentTool.ToolTip.ToString() == "Выделение")
+                {
+                    canvas.Cursor = Cursors.SizeWE;
+                }
+                else if (currentTool.ToolTip.ToString() == "Кадрировать")
+                {
+                    canvas.Cursor = Cursors.SizeAll;
+                }
+
+            } else if (e.Key == Key.D && (Keyboard.Modifiers & ModifierKeys.Control) > 0)
+            {
+                canvas.Children.Remove(selection);
+            }
+            /*
+             * Выбор инструментов конец
+             */
+        }
+
+        private void HandSwitchHander(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space && !isHand)
+            {
+                lastTool = activeTool;
+                isHand = true;
+                TextBlock currentTool = null;
+                foreach (UIElement tool in tools.Children)
+                {
+                    if (tool is TextBlock)
+                    {
+                        ((TextBlock)tool).Background = System.Windows.Media.Brushes.Transparent;
+                        if (((TextBlock)tool).ToolTip.ToString() == "Рука")
+                        {
+                            currentTool = (TextBlock)tool;
+                        }
+                    }
+                }
+                currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
+                canvas.Cursor = Cursors.Hand;
+                activeTool = currentTool;
+            }
+        }
+
+        private void OpenCanvasSizeDialogHandler(object sender, RoutedEventArgs e)
+        {
+            Dialogs.CanvasSizeDialog canvasSizeDialog = new Dialogs.CanvasSizeDialog(canvas);
+            canvasSizeDialog.Show();
+        }
+
+        private void SelectAllHandler(object sender, RoutedEventArgs e)
+        {
+            selection = new Rectangle();
+            selection.Stroke = System.Windows.Media.Brushes.Black;
+            selection.StrokeDashArray = new DoubleCollection(new List<Double>() { 0.7 });
+            selection.Width = canvas.Width;
+            selection.Height = canvas.Height;
+            canvas.Children.Add(selection);
+            Canvas.SetTop(selection, 0);
+            Canvas.SetLeft(selection, 0);
+
+        }
+
+        private void OpenLayersDialogHandler(object sender, RoutedEventArgs e)
+        {
+            Dialogs.LayersDialog layersDialog = new Dialogs.LayersDialog(layers);
+            layersDialog.Show();
         }
     }
 }

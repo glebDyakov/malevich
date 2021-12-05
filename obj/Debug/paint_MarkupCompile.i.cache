@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\wpfprojects\paint\App.xaml
-11151548125
+4-1585432556
 
-61434861427
-20-562262001
-MainWindow.xaml;
+9-943767913
+211022535466
+Dialogs\CanvasSizeDialog.xaml;Dialogs\GaussFilterDialog.xaml;Dialogs\LayersDialog.xaml;MainWindow.xaml;
 
 True
 
