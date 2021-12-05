@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Padding="5" Background="SlateGray" Foreground="White">
             <MenuItem Header="Файл">
-                
+
             </MenuItem>
             <MenuItem Header="Редактирование">
 
@@ -57,33 +57,171 @@
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <ScrollViewer>
                 <StackPanel x:Name="tools" Width="50"  Background="SlateGray">
-                    <TextBlock x:Name="startActiveTool" Foreground="White" Margin="5" Text="Перемещение" Background="DarkSlateGray" Height="35" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Выделение" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Лассо" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Волшебная палочка" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кадрировать" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Квадрат" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Пипетка" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Восстанавливающая кисть" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кисть" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Штамп" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Кисть истории" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Ластик" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Заливка" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Палец" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Освещение" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Перо" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Текст" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Курсор" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Фигуры" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Рука" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Лупа" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Дололнительно" MouseUp="SetActiveTool" />
-                    <TextBlock MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" Foreground="White" Height="35" Margin="5" Text="Перекл. цвета" MouseUp="SetActiveTool" />
+                    <TextBlock x:Name="startActiveTool" ToolTip="Перемещение" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/move_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Выделение" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/select_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Лассо" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/lasso_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Волшебная палочка" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/wizard_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Кадрировать" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5" >
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/crop_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Квадрат" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/shape_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Пипетка" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/pipette_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Восстанавливающая кисть" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/bandage_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Кисть" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/brush_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Штамп" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/stamp_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Кисть истории" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/history_brush_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Ластик" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/eraser_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Заливка" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/fill_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Палец" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/finger_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Освещение" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/light_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Перо" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/pen_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Текст" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/text_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Курсор" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/arrow_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Фигуры" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/shape_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Рука" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">    
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/finger_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Лупа" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">    
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/zoom_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Дололнительно" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/brush_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
+                    <TextBlock ToolTip="Перекл. цвета" MouseEnter="HoverToolHandler" MouseLeave="HoutToolHandler" MouseUp="SetActiveTool">
+                        <Image Height="25" Margin="5">
+                            <Image.Source>
+                                <BitmapImage UriSource="file:///C:/wpfprojects/paint/Assets/brush_tool.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                    </TextBlock>
                 </StackPanel>
             </ScrollViewer>
-            <StackPanel Width="1316" Background="DarkSlateGray">
-                <Viewbox MouseWheel="SetZoomHandler" Height="650" Width="1316" Stretch="Fill" x:Name="zoom">
+            <StackPanel MouseWheel="SetZoomHandler" Width="1316" Background="DarkSlateGray">
+                <Viewbox Height="650" Width="1316" Stretch="Fill" x:Name="zoom">
                     <Canvas x:Name="canvas" ClipToBounds="True" Width="500" Height="500" Cursor="Pen" Margin="50, 75" Background="White" MouseDown="BrushDownHandler" MouseMove="BrushMoveHandler" MouseUp="BrushUpHandler">
 
                     </Canvas>

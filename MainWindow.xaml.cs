@@ -41,18 +41,23 @@ namespace paint
         {
             if (isDrawing)
             {
-                if (activeTool.Text == "Кисть")
+                if (activeTool.ToolTip.ToString() == "Кисть")
                 {
                     pointCollection.Add(new Point(Mouse.GetPosition(canvas).X, Mouse.GetPosition(canvas).Y));
                     currentStroke.Points = pointCollection;
-                } else if (activeTool.Text == "Ластик")
+                } else if (activeTool.ToolTip.ToString() == "Ластик")
                 {
                     pointCollection.Add(new Point(Mouse.GetPosition(canvas).X, Mouse.GetPosition(canvas).Y));
                     currentStroke.Points = pointCollection;
-                } else if (activeTool.Text == "Выделение")
+                } else if (activeTool.ToolTip.ToString() == "Выделение")
                 {
                     /*selection.Width = Mouse.GetPosition(canvas).X - startSelectionPoint.X;
                     selection.Height = Mouse.GetPosition(canvas).Y - startSelectionPoint.Y;*/
+                    selection.Width = Mouse.GetPosition(canvas).X;
+                    selection.Height = Mouse.GetPosition(canvas).Y;
+                }
+                else if (activeTool.ToolTip.ToString() == "Кадрировать")
+                {
                     selection.Width = Mouse.GetPosition(canvas).X;
                     selection.Height = Mouse.GetPosition(canvas).Y;
                 }
@@ -64,22 +69,28 @@ namespace paint
             if (isDrawing) {
                 isDrawing = false;
             }
-            if (activeTool.Text == "Заливка")
+            if (activeTool.ToolTip.ToString() == "Заливка")
             {
                 canvas.Background = System.Windows.Media.Brushes.Red;
-            }
-            if (activeTool.Text == "Выделение")
+            } else if (activeTool.ToolTip.ToString() == "Выделение")
             {
                 canvas.Children.Remove(selection);
                 startSelectionPoint = new Point(0, 0);
             }
+            else if (activeTool.ToolTip.ToString() == "Кадрировать")
+            {
+                canvas.Width = selection.Width;
+                canvas.Height = selection.Height;
+                canvas.Children.Remove(selection);
+            }
+            
         }
 
         private void BrushDownHandler(object sender, MouseButtonEventArgs e)
         {
             isDrawing = true;
 
-            if (activeTool.Text == "Кисть")
+            if (activeTool.ToolTip.ToString() == "Кисть")
             {
                 currentStroke = new Polyline();
                 currentStroke.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
@@ -88,7 +99,7 @@ namespace paint
                 currentStroke.StrokeThickness = 8;
                 currentStroke.Points = pointCollection;
                 canvas.Children.Add(currentStroke);
-            } else if (activeTool.Text == "Ластик")
+            } else if (activeTool.ToolTip.ToString() == "Ластик")
             {
                 currentStroke = new Polyline();
                 currentStroke.Stroke = System.Windows.Media.Brushes.White;
@@ -97,7 +108,18 @@ namespace paint
                 currentStroke.StrokeThickness = 8;
                 currentStroke.Points = pointCollection;
                 canvas.Children.Add(currentStroke);
-            } else if (activeTool.Text == "Выделение")
+            } else if (activeTool.ToolTip.ToString() == "Выделение")
+            {
+                selection = new Rectangle();
+                selection.Stroke = System.Windows.Media.Brushes.Black;
+                selection.StrokeDashArray = new DoubleCollection(new List<Double>() { 0.7 });
+                selection.RenderTransformOrigin = new Point(Mouse.GetPosition(canvas).X, Mouse.GetPosition(canvas).Y);
+                canvas.Children.Add(selection);
+                Canvas.SetTop(selection, Mouse.GetPosition(canvas).Y);
+                Canvas.SetLeft(selection, Mouse.GetPosition(canvas).X);
+                startSelectionPoint = new Point(Mouse.GetPosition(canvas).X, Mouse.GetPosition(canvas).Y);
+            }
+            else if (activeTool.ToolTip.ToString() == "Кадрировать")
             {
                 selection = new Rectangle();
                 selection.Stroke = System.Windows.Media.Brushes.Black;
@@ -117,10 +139,14 @@ namespace paint
                 {
                     zoom.Width = zoom.Width + 10 * (e.Delta / 120);
                     zoom.Height = zoom.Height + 10 * (e.Delta / 120);
+                    /*canvas.Width = canvas.Width + 10 * (e.Delta / 120);
+                    canvas.Height = canvas.Height + 10 * (e.Delta / 120);*/
                 } else if (e.Delta < 0)
                 {
                     zoom.Width = zoom.Width - 10 * (e.Delta / 120 * -1);
                     zoom.Height = zoom.Height - 10 * (e.Delta / 120 * -1);
+                    /*canvas.Width = canvas.Width - 10 * (e.Delta / 120 * -1);
+                    canvas.Height = canvas.Height - 10 * (e.Delta / 120 * -1);*/
                 }
             }
         }
@@ -128,7 +154,7 @@ namespace paint
         private void HoverToolHandler(object sender, MouseEventArgs e)
         {
             TextBlock currentTool = (TextBlock)sender;
-            if (activeTool.Text != currentTool.Text)
+            if (activeTool.ToolTip.ToString() != currentTool.ToolTip.ToString())
             {
                 currentTool.Background = System.Windows.Media.Brushes.Gray;
             }
@@ -137,7 +163,7 @@ namespace paint
         private void HoutToolHandler(object sender, MouseEventArgs e)
         {
             TextBlock currentTool = (TextBlock)sender;
-            if (activeTool.Text != currentTool.Text)
+            if (activeTool.ToolTip.ToString() != currentTool.ToolTip.ToString())
             {
                 currentTool.Background = System.Windows.Media.Brushes.Transparent;
             } else
@@ -154,71 +180,75 @@ namespace paint
             }
             TextBlock currentTool = (TextBlock)sender;
             currentTool.Background = System.Windows.Media.Brushes.DarkSlateGray;
-            if (currentTool.Text == "Кисть")
+            if (currentTool.ToolTip.ToString() == "Кисть")
             {
                 canvas.Cursor = Cursors.Pen;
-            } else if (currentTool.Text == "Ластик")
+            } else if (currentTool.ToolTip.ToString() == "Ластик")
             {
                 canvas.Cursor = Cursors.UpArrow;
-            } else if (currentTool.Text == "Рука")
+            } else if (currentTool.ToolTip.ToString() == "Рука")
             {
                 canvas.Cursor = Cursors.Hand;
             }
-            else if (currentTool.Text == "Заливка")
+            else if (currentTool.ToolTip.ToString() == "Заливка")
             {
                 canvas.Cursor = Cursors.AppStarting;
             }
-            else if (currentTool.Text == "Дополнительно")
+            else if (currentTool.ToolTip.ToString() == "Дополнительно")
             {
                 canvas.Cursor = Cursors.ArrowCD;
             }
-            else if (currentTool.Text == "Лупа")
+            else if (currentTool.ToolTip.ToString() == "Лупа")
             {
                 canvas.Cursor = Cursors.No;
             }
-            else if (currentTool.Text == "Фигуры")
+            else if (currentTool.ToolTip.ToString() == "Фигуры")
             {
                 canvas.Cursor = Cursors.None;
             }
-            else if (currentTool.Text == "Текст")
+            else if (currentTool.ToolTip.ToString() == "Текст")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Переключить цвета")
+            else if (currentTool.ToolTip.ToString() == "Переключить цвета")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Курсор")
+            else if (currentTool.ToolTip.ToString() == "Курсор")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Палец")
+            else if (currentTool.ToolTip.ToString() == "Палец")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Освещение")
+            else if (currentTool.ToolTip.ToString() == "Освещение")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Кисть истории")
+            else if (currentTool.ToolTip.ToString() == "Кисть истории")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Восстанавливающая кисть")
+            else if (currentTool.ToolTip.ToString() == "Восстанавливающая кисть")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Пипетка")
+            else if (currentTool.ToolTip.ToString() == "Пипетка")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Квадрат")
+            else if (currentTool.ToolTip.ToString() == "Квадрат")
             {
                 canvas.Cursor = Cursors.IBeam;
             }
-            else if (currentTool.Text == "Выделение")
+            else if (currentTool.ToolTip.ToString() == "Выделение")
             {
                 canvas.Cursor = Cursors.SizeWE;
+            }
+            else if (currentTool.ToolTip.ToString() == "Кадрировать")
+            {
+                canvas.Cursor = Cursors.SizeAll;
             }
             activeTool = currentTool;
         }
