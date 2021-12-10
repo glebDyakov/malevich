@@ -51,9 +51,12 @@
 
             </MenuItem>
         </Menu>
-        <StackPanel Grid.Row="1" Grid.Column="0" Background="SlateGray" Orientation="Horizontal">
+        <StackPanel x:Name="toolParams" Grid.Row="1" Grid.Column="0" Background="SlateGray" Orientation="Horizontal">
             <TextBlock Foreground="White" Margin="10" Text="Домой" />
             <TextBlock Foreground="White" Margin="10" Text="Перемещение" />
+            <ComboBox Width="75" Margin="0, 15, 0, 15">
+                <ComboBoxItem Content="25"></ComboBoxItem>
+            </ComboBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <ScrollViewer>
