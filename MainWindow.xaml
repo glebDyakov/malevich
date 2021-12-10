@@ -52,11 +52,14 @@
             </MenuItem>
         </Menu>
         <StackPanel x:Name="toolParams" Grid.Row="1" Grid.Column="0" Background="SlateGray" Orientation="Horizontal">
-            <TextBlock Foreground="White" Margin="10" Text="Домой" />
-            <TextBlock Foreground="White" Margin="10" Text="Перемещение" />
-            <ComboBox Width="75" Margin="0, 15, 0, 15">
-                <ComboBoxItem Content="25"></ComboBoxItem>
+            <CheckBox Margin="10" />
+            <TextBlock Foreground="White" Margin="10" Text="Автовыбор" />
+            <ComboBox SelectedIndex="0" Width="75" Margin="0, 15, 0, 15">
+                <ComboBoxItem Content="Слой"></ComboBoxItem>
+                <ComboBoxItem Content="Группа"></ComboBoxItem>
             </ComboBox>
+            <CheckBox Margin="10" />
+            <TextBlock Foreground="White" Margin="10" Text="Показать упр. элем." />
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <ScrollViewer>

@@ -50,6 +50,21 @@ namespace paint
         public string textWeight = "Normal";
         public int textSizePnts = 14;
         public Brush textColor;
+        public string translateSelect = "Слой";
+        public string selectionStyle = "Normal";
+        public string cropArea = "Произвольно";
+        public bool removeCropPixels = true;
+        public bool cropWithContent = false;
+        public string pippeteTemplate = "Все слои";
+        public bool pippetShowRingExample = true;
+        public string recoveryMode = "Normal";
+        public bool zoomScaleDrag = true;
+        public bool zoomAllWindows = false;
+        public bool zoomSettedScreenScale = false;
+        public bool handScrollAllWindows = false;
+        public string cursorSelect = "Активные слои";
+        public string lightRange = "Средние тона";
+        public double lightExpon = 10;
 
         public MainWindow()
         {
@@ -485,6 +500,30 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Рука")
             {
                 canvas.Cursor = Cursors.Hand;
+                /*
+                 * параметры руки
+                 */
+                /*
+                 * рука прокрутка во всех окнах
+                 */
+                CheckBox handScrollAllWindowsCheckbox = new CheckBox();
+                handScrollAllWindowsCheckbox.IsChecked = false;
+                handScrollAllWindowsCheckbox.Width = 25;
+                handScrollAllWindowsCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                handScrollAllWindowsCheckbox.MouseUp += SetHandScrollAllWindows;
+                toolParams.Children.Add(handScrollAllWindowsCheckbox);
+                TextBlock handScrollAllWindowsLabel = new TextBlock();
+                handScrollAllWindowsLabel.Text = "Прокрутка во всех окнах";
+                handScrollAllWindowsLabel.Width = 75;
+                handScrollAllWindowsLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(handScrollAllWindowsLabel);
+                /*
+                 * конец лупа настр. размер окна
+                 */
+                /*
+                 * конец параметров руки
+                 */
+
             }
             else if (currentTool.ToolTip.ToString() == "Заливка")
             {
@@ -548,6 +587,63 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Лупа")
             {
                 canvas.Cursor = Cursors.No;
+                /*
+                 *
+                 */
+                /*
+                 * лупа настр. размер окна
+                 */
+                CheckBox zoomSettedScreenScaleCheckbox = new CheckBox();
+                zoomSettedScreenScaleCheckbox.IsChecked = false;
+                zoomSettedScreenScaleCheckbox.Width = 25;
+                zoomSettedScreenScaleCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                zoomSettedScreenScaleCheckbox.MouseUp += SetZoomSettedScreenScale;
+                toolParams.Children.Add(zoomSettedScreenScaleCheckbox);
+                TextBlock zoomSettedScreenScaleLabel = new TextBlock();
+                zoomSettedScreenScaleLabel.Text = "Настр. размер окна";
+                zoomSettedScreenScaleLabel.Width = 75;
+                zoomSettedScreenScaleLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(zoomSettedScreenScaleLabel);
+                /*
+                 * конец лупа настр. размер окна
+                 */
+                /*
+                 * лупы во всех окнах
+                 */
+                CheckBox zoomAllWindowsCheckbox = new CheckBox();
+                zoomAllWindowsCheckbox.IsChecked = false;
+                zoomAllWindowsCheckbox.Width = 25;
+                zoomAllWindowsCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                zoomAllWindowsCheckbox.MouseUp += SetZoomAllWindows;
+                toolParams.Children.Add(zoomAllWindowsCheckbox);
+                TextBlock zoomAllWindowsLabel = new TextBlock();
+                zoomAllWindowsLabel.Text = "Во всех окнах";
+                zoomAllWindowsLabel.Width = 75;
+                zoomAllWindowsLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(zoomAllWindowsLabel);
+                /*
+                 * конец лупы во всех окнах
+                 */
+                /*
+                 * лупа масштабирования перетаскиванием
+                 */
+                CheckBox zoomScaleDragCheckbox = new CheckBox();
+                zoomScaleDragCheckbox.IsChecked = false;
+                zoomScaleDragCheckbox.Width = 25;
+                zoomScaleDragCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                zoomScaleDragCheckbox.MouseUp += SetZoomScaleDrag;
+                toolParams.Children.Add(zoomScaleDragCheckbox);
+                TextBlock zoomScaleDragLabel = new TextBlock();
+                zoomScaleDragLabel.Text = "Масшт. перетаскиванием";
+                zoomScaleDragLabel.Width = 75;
+                zoomScaleDragLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(zoomScaleDragLabel);
+                /*
+                 * конец лупы масштабирования перетаскиванием
+                 */
+                /*
+                 *
+                 */
             }
             else if (currentTool.ToolTip.ToString() == "Фигуры")
             {
@@ -638,6 +734,25 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Курсор")
             {
                 canvas.Cursor = Cursors.IBeam;
+                /*
+                 * парметры выбора
+                 */
+                ComboBox cursorSelect = new ComboBox();
+                ComboBoxItem cursorSelectActiveLayers = new ComboBoxItem();
+                cursorSelectActiveLayers.Content = "Активные слои";
+                cursorSelect.Items.Add(cursorSelectActiveLayers);
+                ComboBoxItem cursorSelectAllLayers = new ComboBoxItem();
+                cursorSelectAllLayers.Content = "Все слои";
+                cursorSelect.Items.Add(cursorSelectAllLayers);
+                cursorSelect.SelectedIndex = 0;
+                cursorSelect.Width = 75;
+                cursorSelect.Margin = new Thickness(25, 15, 0, 15);
+                cursorSelect.SelectionChanged += SetCursorSelect;
+                toolParams.Children.Add(cursorSelect);
+                /*
+                 * конец парметра выбора
+                 */
+
             }
             else if (currentTool.ToolTip.ToString() == "Палец")
             {
@@ -646,6 +761,86 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Освещение")
             {
                 canvas.Cursor = Cursors.IBeam;
+                /*
+                 * Параметры освещения
+                 */
+                /*
+                 * диапозон освещения
+                 */
+                TextBlock lightRangeLabel = new TextBlock();
+                lightRangeLabel.Text = "Диапозон";
+                lightRangeLabel.Width = 75;
+                lightRangeLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(lightRangeLabel);
+                ComboBox lightRangeCheckbox = new ComboBox();
+                ComboBoxItem lightRangeCheckboxShadows = new ComboBoxItem();
+                lightRangeCheckboxShadows.Content = "Тени";
+                lightRangeCheckbox.Items.Add(lightRangeCheckboxShadows);
+                ComboBoxItem lightRangeCheckboxMiddleTones = new ComboBoxItem();
+                lightRangeCheckboxMiddleTones.Content = "Средние тона";
+                lightRangeCheckbox.Items.Add(lightRangeCheckboxMiddleTones);
+                ComboBoxItem lightRangeCheckboxHighlights = new ComboBoxItem();
+                lightRangeCheckboxHighlights.Content = "Подсветка";
+                lightRangeCheckbox.Items.Add(lightRangeCheckboxHighlights);
+                lightRangeCheckbox.SelectedIndex = 1;
+                lightRangeCheckbox.Width = 75;
+                lightRangeCheckbox.Margin = new Thickness(25, 15, 0, 15);
+                lightRangeCheckbox.SelectionChanged += SetLightRange;
+                toolParams.Children.Add(lightRangeCheckbox);
+                /*
+                 * конец диапозона освещения
+                 */
+                /*
+                 * экспонирование освещения
+                 */
+                TextBlock lightExponLabel = new TextBlock();
+                lightExponLabel.Text = "Экспонир.";
+                lightExponLabel.Width = 75;
+                lightExponLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(lightExponLabel);
+                ComboBox lightExpon = new ComboBox();
+                ComboBoxItem lightExpon10Prsnts = new ComboBoxItem();
+                lightExpon10Prsnts.Content = "10";
+                lightExpon.Items.Add(lightExpon10Prsnts);
+                ComboBoxItem lightExpon20Prsnts = new ComboBoxItem();
+                lightExpon20Prsnts.Content = "20";
+                lightExpon.Items.Add(lightExpon20Prsnts);
+                ComboBoxItem lightExpon30Prsnts = new ComboBoxItem();
+                lightExpon30Prsnts.Content = "30";
+                lightExpon.Items.Add(lightExpon30Prsnts);
+                ComboBoxItem lightExpon40Prsnts = new ComboBoxItem();
+                lightExpon40Prsnts.Content = "40";
+                lightExpon.Items.Add(lightExpon40Prsnts);
+                ComboBoxItem lightExpon50Prsnts = new ComboBoxItem();
+                lightExpon50Prsnts.Content = "50";
+                lightExpon.Items.Add(lightExpon50Prsnts);
+                ComboBoxItem lightExpon60Prsnts = new ComboBoxItem();
+                lightExpon60Prsnts.Content = "60";
+                lightExpon.Items.Add(lightExpon60Prsnts);
+                ComboBoxItem lightExpon70Prsnts = new ComboBoxItem();
+                lightExpon70Prsnts.Content = "70";
+                lightExpon.Items.Add(lightExpon70Prsnts);
+                ComboBoxItem lightExpon80Prsnts = new ComboBoxItem();
+                lightExpon80Prsnts.Content = "80";
+                lightExpon.Items.Add(lightExpon80Prsnts);
+                ComboBoxItem lightExpon90Prsnts = new ComboBoxItem();
+                lightExpon90Prsnts.Content = "90";
+                lightExpon.Items.Add(lightExpon90Prsnts);
+                ComboBoxItem lightExpon100Prsnts = new ComboBoxItem();
+                lightExpon100Prsnts.Content = "100";
+                lightExpon.Items.Add(lightExpon100Prsnts);
+                lightExpon.SelectedIndex = 0;
+                lightExpon.Width = 75;
+                lightExpon.Margin = new Thickness(25, 15, 0, 15);
+                lightExpon.SelectionChanged += SetLightExpon;
+                toolParams.Children.Add(lightExpon);
+                /*
+                 * конец экспонирования освещения
+                 */
+                /*
+                 * конец параметров освещения
+                 */
+
             }
             else if (currentTool.ToolTip.ToString() == "Кисть истории")
             {
@@ -654,10 +849,138 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Восстанавливающая кисть")
             {
                 canvas.Cursor = Cursors.IBeam;
+                /*
+                 * востанавливающая кисть
+                 */
+                /*
+                 * начало режима востанавливающей кисти
+                 */
+                TextBlock recoveryModeLabel = new TextBlock();
+                recoveryModeLabel.Text = "Режим";
+                recoveryModeLabel.Width = 75;
+                recoveryModeLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(recoveryModeLabel);
+                ComboBox recoveryMode = new ComboBox();
+                ComboBoxItem recoveryModeNormal = new ComboBoxItem();
+                recoveryModeNormal.Content = "Normal";
+                recoveryMode.Items.Add(recoveryModeNormal);
+                ComboBoxItem recoveryModeReplace = new ComboBoxItem();
+                recoveryModeReplace.Content = "Replace";
+                recoveryMode.Items.Add(recoveryModeReplace);
+                recoveryMode.SelectedIndex = 0;
+                recoveryMode.Width = 75;
+                recoveryMode.Margin = new Thickness(25, 15, 0, 15);
+                recoveryMode.SelectionChanged += SetRecoveryMode;
+                toolParams.Children.Add(recoveryMode);
+                /*
+                 * конец режима востанавливающей кисти
+                 */
+                /*
+                 * показать кольцо пробы пипетки
+                 */
+                CheckBox templateAllLayersCheckbox = new CheckBox();
+                templateAllLayersCheckbox.IsChecked = false;
+                templateAllLayersCheckbox.Width = 25;
+                templateAllLayersCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                templateAllLayersCheckbox.MouseUp += SetRecoveryTemplateAllLayers;
+                toolParams.Children.Add(templateAllLayersCheckbox);
+                TextBlock templateAllLayersLabel = new TextBlock();
+                templateAllLayersLabel.Text = "Образец со всех слоев";
+                templateAllLayersLabel.Width = 75;
+                templateAllLayersLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(templateAllLayersLabel);
+                /*
+                 * конец показать кольцо пробы пипетки
+                 */
+                /*
+                 * конец востанавливающей кисти
+                 */
             }
             else if (currentTool.ToolTip.ToString() == "Пипетка")
             {
                 canvas.Cursor = Cursors.IBeam;
+                /*
+                 * параметры пипетки
+                 */
+                /*
+                 * размер образца пипетки
+                 */
+                TextBlock pippetTemplateSizeLabel = new TextBlock();
+                pippetTemplateSizeLabel.Text = "Размер образца";
+                pippetTemplateSizeLabel.Width = 75;
+                pippetTemplateSizeLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(pippetTemplateSizeLabel);
+                ComboBox pippetTemplateSize = new ComboBox();
+                ComboBoxItem pippetTemplateSizePoint = new ComboBoxItem();
+                pippetTemplateSizePoint.Content = "Точка";
+                pippetTemplateSize.Items.Add(pippetTemplateSizePoint);
+                ComboBoxItem pippetTemplateSizeMiddle3X3 = new ComboBoxItem();
+                pippetTemplateSizeMiddle3X3.Content = "Среднее3X3";
+                pippetTemplateSize.Items.Add(pippetTemplateSizeMiddle3X3);
+                ComboBoxItem pippetTemplateSizeMiddle5X5 = new ComboBoxItem();
+                pippetTemplateSizeMiddle5X5.Content = "Среднее5X5";
+                pippetTemplateSize.Items.Add(pippetTemplateSizeMiddle5X5);
+                ComboBoxItem pippetTemplateSizeMiddle11X11 = new ComboBoxItem();
+                pippetTemplateSizeMiddle11X11.Content = "Среднее11X11";
+                pippetTemplateSize.Items.Add(pippetTemplateSizeMiddle11X11);
+                ComboBoxItem pippetTemplateSizeMiddle31X31 = new ComboBoxItem();
+                pippetTemplateSizeMiddle31X31.Content = "Среднее31X31";
+                pippetTemplateSize.Items.Add(pippetTemplateSizeMiddle31X31);
+                ComboBoxItem pippetTemplateSizeMiddle51X51 = new ComboBoxItem();
+                pippetTemplateSizeMiddle51X51.Content = "Среднее51X51";
+                pippetTemplateSize.Items.Add(pippetTemplateSizeMiddle51X51);
+                ComboBoxItem wizardTemplateSizeMiddle101X101 = new ComboBoxItem();
+                wizardTemplateSizeMiddle101X101.Content = "Среднее101X101";
+                pippetTemplateSize.Items.Add(wizardTemplateSizeMiddle101X101);
+                pippetTemplateSize.SelectedIndex = 0;
+                pippetTemplateSize.Width = 75;
+                pippetTemplateSize.Margin = new Thickness(25, 15, 0, 15);
+                pippetTemplateSize.SelectionChanged += SetTranslateSelect;
+                toolParams.Children.Add(pippetTemplateSize);
+                /*
+                 * конец размер образца пипетки
+                 */
+                /*
+                 * образца пипетки
+                 */
+                TextBlock pippetTemplateLabel = new TextBlock();
+                pippetTemplateLabel.Text = "Образец";
+                pippetTemplateLabel.Width = 75;
+                pippetTemplateLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(pippetTemplateLabel);
+                ComboBox pippetTemplate = new ComboBox();
+                ComboBoxItem pippetTemplateAllLayers = new ComboBoxItem();
+                pippetTemplateAllLayers.Content = "Все слои";
+                pippetTemplate.Items.Add(pippetTemplateAllLayers);
+                pippetTemplate.SelectedIndex = 0;
+                pippetTemplate.Width = 75;
+                pippetTemplate.Margin = new Thickness(25, 15, 0, 15);
+                pippetTemplate.SelectionChanged += SetPipeteTemplate;
+                toolParams.Children.Add(pippetTemplate);
+                /*
+                 * конец образца пипетки
+                 */
+                /*
+                 * показать кольцо пробы пипетки
+                 */
+                CheckBox showRingExampleCheckbox = new CheckBox();
+                showRingExampleCheckbox.IsChecked = true;
+                showRingExampleCheckbox.Width = 25;
+                showRingExampleCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                showRingExampleCheckbox.MouseUp += SetPippetShowRingExample;
+                toolParams.Children.Add(showRingExampleCheckbox);
+                TextBlock showRingExampleLabel = new TextBlock();
+                showRingExampleLabel.Text = "Показать кольцо пробы";
+                showRingExampleLabel.Width = 75;
+                showRingExampleLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(showRingExampleLabel);
+                /*
+                 * конец показать кольцо пробы пипетки
+                 */
+                /*
+                 * конец параметров пипетки
+                 */
+
             }
             else if (currentTool.ToolTip.ToString() == "Квадрат")
             {
@@ -666,13 +989,121 @@ namespace paint
             else if (currentTool.ToolTip.ToString() == "Выделение")
             {
                 canvas.Cursor = Cursors.SizeWE;
+                /*
+                 *  начало параметров выделения
+                 */
+                /*
+                 * начало растушевки выделения
+                 */
+                TextBlock selectionShadingLabel = new TextBlock();
+                selectionShadingLabel.Text = "Растушевка";
+                selectionShadingLabel.Width = 75;
+                selectionShadingLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(selectionShadingLabel);
+                TextBox selectionShadingInput = new TextBox();
+                selectionShadingInput.Text = "0";
+                selectionShadingInput.Width = 75;
+                selectionShadingInput.Margin = new Thickness(25, 15, 0, 15);
+                selectionShadingInput.FocusableChanged += SetSelectionShading;
+                toolParams.Children.Add(selectionShadingInput);
+                /*
+                 * конец растушевки выделения
+                 */
+                /*
+                 * начало стиля выделения
+                 */
+                TextBlock selectionStyleLabel = new TextBlock();
+                selectionStyleLabel.Text = "Растушевка";
+                selectionStyleLabel.Width = 75;
+                selectionStyleLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(selectionStyleLabel);
+                ComboBox selectionStyle = new ComboBox();
+                ComboBoxItem selectionStyleNormal = new ComboBoxItem();
+                selectionStyleNormal.Content = "Normal";
+                selectionStyle.Items.Add(selectionStyleNormal);
+                ComboBoxItem selectionStyleSettedProportions = new ComboBoxItem();
+                selectionStyleSettedProportions.Content = "Setted proportions";
+                selectionStyle.Items.Add(selectionStyleSettedProportions);
+                ComboBoxItem selectionStyleSettedSize = new ComboBoxItem();
+                selectionStyleSettedSize.Content = "Setted size";
+                selectionStyle.Items.Add(selectionStyleSettedSize);
+                selectionStyle.SelectedIndex = 0;
+                selectionStyle.Width = 75;
+                selectionStyle.Margin = new Thickness(25, 15, 0, 15);
+                selectionStyle.SelectionChanged += SetSelectionStyle;
+                toolParams.Children.Add(selectionStyle);
+                /*
+                 * конец растушевки выделения
+                 */
+                /*
+                 * конец выделения
+                 */
             }
             else if (currentTool.ToolTip.ToString() == "Кадрировать")
             {
                 canvas.Cursor = Cursors.SizeAll;
+                /*
+                 * Параметры кадрировать
+                 */
+                /*
+                 * область кадрирования
+                 */
+                ComboBox cropArea = new ComboBox();
+                ComboBoxItem cropAreaFree = new ComboBoxItem();
+                cropAreaFree.Content = "Произвольно";
+                cropArea.Items.Add(cropAreaFree);
+                ComboBoxItem cropAreaRatio = new ComboBoxItem();
+                cropAreaRatio.Content = "В соотношении";
+                cropArea.Items.Add(cropAreaRatio);
+                cropArea.SelectedIndex = 0;
+                cropArea.Width = 75;
+                cropArea.Margin = new Thickness(25, 15, 0, 15);
+                cropArea.SelectionChanged += SetCropArea;
+                toolParams.Children.Add(cropArea);
+                /*
+                 * конец область кадрирования
+                 */
+                /*
+                 * удалить отсеч. пикс. кадрирования
+                 */
+                CheckBox removeCropPixelsCheckbox = new CheckBox();
+                removeCropPixelsCheckbox.IsChecked = true;
+                removeCropPixelsCheckbox.Width = 25;
+                removeCropPixelsCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                removeCropPixelsCheckbox.MouseUp += SetWizardSmoothing;
+                toolParams.Children.Add(removeCropPixelsCheckbox);
+                TextBlock removeCropPixelsLabel = new TextBlock();
+                removeCropPixelsLabel.Text = "Удалить отсеч. пикс.";
+                removeCropPixelsLabel.Width = 75;
+                removeCropPixelsLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(removeCropPixelsLabel);
+                /*
+                 * конец удалить отсеч. пикс. кадрирования
+                 */
+                /*
+                 * удалить отсеч. пикс. кадрирования
+                 */
+                CheckBox withContentCheckbox = new CheckBox();
+                withContentCheckbox.IsChecked = true;
+                withContentCheckbox.Width = 25;
+                withContentCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                withContentCheckbox.MouseUp += SetCropWithContent;
+                toolParams.Children.Add(withContentCheckbox);
+                TextBlock withContentLabel = new TextBlock();
+                withContentLabel.Text = "С учетом содержимого";
+                withContentLabel.Width = 75;
+                withContentLabel.Margin = new Thickness(0, 15, 0, 15);
+                toolParams.Children.Add(withContentLabel);
+                /*
+                 * конец удалить отсеч. пикс. кадрирования
+                 */
+                /*
+                 * конец кадрировать
+                 */
             }
             else if (currentTool.ToolTip.ToString() == "Перо")
             {
+                canvas.Cursor = Cursors.Pen;
                 /*
                  * Параметры пера
                  */
@@ -701,6 +1132,233 @@ namespace paint
                  * Конец параметров пера
                  */
 
+            } else if (currentTool.ToolTip.ToString() == "Перемещение")
+            {
+                canvas.Cursor = Cursors.SizeAll;
+                /*
+                 * Параметры перемещения
+                 */
+                /*
+                 * автовыбор перемещения
+                 */
+                CheckBox autoSelectCheckbox = new CheckBox();
+                autoSelectCheckbox.IsChecked = true;
+                autoSelectCheckbox.Width = 25;
+                autoSelectCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(autoSelectCheckbox);
+                TextBlock autoSelectLabel = new TextBlock();
+                autoSelectLabel.Text = "Автовыбор";
+                autoSelectLabel.Width = 75;
+                autoSelectLabel.Margin = new Thickness(0, 15, 0, 15);
+                autoSelectCheckbox.MouseUp += SetTranslateAutoSelect;
+                toolParams.Children.Add(autoSelectLabel);
+                /*
+                 * конец автовыбора перемещения
+                 */
+
+                /*
+                 * выбор перемещения
+                 */
+                ComboBox translateSelect = new ComboBox();
+                ComboBoxItem translateSelectLayer = new ComboBoxItem();
+                translateSelectLayer.Content = "Слой";
+                translateSelect.Items.Add(translateSelectLayer);
+                ComboBoxItem translateSelectGroup = new ComboBoxItem();
+                translateSelectGroup.Content = "Группа";
+                translateSelect.Items.Add(translateSelectGroup);
+                translateSelect.SelectedIndex = 0;
+                translateSelect.Width = 75;
+                translateSelect.Margin = new Thickness(25, 15, 0, 15);
+                translateSelect.SelectionChanged += SetTranslateSelect;
+                toolParams.Children.Add(translateSelect);
+                /*
+                 * конец выбора перемещения
+                 */
+                /*
+                 * Параметры перемещения
+                 */
+                /*
+                 * показать элем. упр. перемещения
+                 */
+                CheckBox showControlsCheckbox = new CheckBox();
+                showControlsCheckbox.IsChecked = false;
+                showControlsCheckbox.Width = 25;
+                showControlsCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(showControlsCheckbox);
+                TextBlock showControlsLabel = new TextBlock();
+                showControlsLabel.Text = "Показать элем. упр.";
+                showControlsLabel.Width = 75;
+                showControlsLabel.Margin = new Thickness(0, 15, 0, 15);
+                showControlsCheckbox.MouseUp += SetTranslateShowControls;
+                toolParams.Children.Add(showControlsLabel);
+                /*
+                 * конец показать элем. упр. перемещения
+                 */
+
+
+                /*
+                 * Конец параметров перемещения
+                 */
+            }
+            else if (currentTool.ToolTip.ToString() == "Лассо")
+            {
+                canvas.Cursor = Cursors.SizeWE;
+                /*
+                 *  начало параметров лассо
+                 */
+                /*
+                 * начало растушевки лассо
+                 */
+                TextBlock selectionShadingLabel = new TextBlock();
+                selectionShadingLabel.Text = "Растушевка";
+                selectionShadingLabel.Width = 75;
+                selectionShadingLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(selectionShadingLabel);
+                TextBox selectionShadingInput = new TextBox();
+                selectionShadingInput.Text = "0";
+                selectionShadingInput.Width = 75;
+                selectionShadingInput.Margin = new Thickness(25, 15, 0, 15);
+                selectionShadingInput.FocusableChanged += SetSelectionShading;
+                toolParams.Children.Add(selectionShadingInput);
+                /*
+                 * конец растушевки лассо
+                 */
+                /*
+                 * сглаживание лассо
+                 */
+                CheckBox smoothingLassoCheckbox = new CheckBox();
+                smoothingLassoCheckbox.IsChecked = false;
+                smoothingLassoCheckbox.Width = 25;
+                smoothingLassoCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(smoothingLassoCheckbox);
+                TextBlock smoothingLassoLabel = new TextBlock();
+                smoothingLassoLabel.Text = "Сглаживание";
+                smoothingLassoLabel.Width = 75;
+                smoothingLassoLabel.Margin = new Thickness(0, 15, 0, 15);
+                smoothingLassoCheckbox.MouseUp += SetLassoSmoothing;
+                toolParams.Children.Add(smoothingLassoLabel);
+                /*
+                 * конец сглаживание лассо
+                 */
+                /*
+                 * конец лассо
+                 */
+            }
+            else if (currentTool.ToolTip.ToString() == "Волшебная палочка")
+            {
+                canvas.Cursor = Cursors.SizeAll;
+                /*
+                 * Параметры волшебной палочки
+                 */
+                /*
+                 * допуск волшебной палочки
+                 */
+                TextBlock wizardThresholdLabel = new TextBlock();
+                wizardThresholdLabel.Text = "Допуск";
+                wizardThresholdLabel.Width = 75;
+                wizardThresholdLabel.Margin = new Thickness(0, 15, 0, 15);
+                wizardThresholdLabel.MouseUp += SetTranslateShowControls;
+                toolParams.Children.Add(wizardThresholdLabel); 
+                TextBox wizardThresholdInput = new TextBox();
+                wizardThresholdInput.Width = 125;
+                wizardThresholdInput.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(wizardThresholdInput);
+                /*
+                 * конец допуска волшебной палочки
+                 */
+                /*
+                 * размер образца волшебной палочки
+                 */
+                TextBlock wizardTemplateSizeLabel = new TextBlock();
+                wizardTemplateSizeLabel.Text = "Размер образца";
+                wizardTemplateSizeLabel.Width = 75;
+                wizardTemplateSizeLabel.Margin = new Thickness(25, 15, 0, 15);
+                toolParams.Children.Add(wizardTemplateSizeLabel);
+                ComboBox wizardTemplateSize = new ComboBox();
+                ComboBoxItem wizardTemplateSizePoint = new ComboBoxItem();
+                wizardTemplateSizePoint.Content = "Точка";
+                wizardTemplateSize.Items.Add(wizardTemplateSizePoint);
+                ComboBoxItem wizardTemplateSizeMiddle3X3 = new ComboBoxItem();
+                wizardTemplateSizeMiddle3X3.Content = "Среднее3X3";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle3X3);
+                ComboBoxItem wizardTemplateSizeMiddle5X5 = new ComboBoxItem();
+                wizardTemplateSizeMiddle5X5.Content = "Среднее5X5";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle5X5);
+                ComboBoxItem wizardTemplateSizeMiddle11X11 = new ComboBoxItem();
+                wizardTemplateSizeMiddle11X11.Content = "Среднее11X11";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle11X11);
+                ComboBoxItem wizardTemplateSizeMiddle31X31 = new ComboBoxItem();
+                wizardTemplateSizeMiddle31X31.Content = "Среднее31X31";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle31X31);
+                ComboBoxItem wizardTemplateSizeMiddle51X51 = new ComboBoxItem();
+                wizardTemplateSizeMiddle51X51.Content = "Среднее51X51";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle51X51);
+                ComboBoxItem wizardTemplateSizeMiddle101X101 = new ComboBoxItem();
+                wizardTemplateSizeMiddle101X101.Content = "Среднее101X101";
+                wizardTemplateSize.Items.Add(wizardTemplateSizeMiddle101X101);
+                wizardTemplateSize.SelectedIndex = 0;
+                wizardTemplateSize.Width = 75;
+                wizardTemplateSize.Margin = new Thickness(25, 15, 0, 15);
+                wizardTemplateSize.SelectionChanged += SetTranslateSelect;
+                toolParams.Children.Add(wizardTemplateSize);
+                /*
+                 * конец размер образца волшебной палочки
+                 */
+                /*
+                 * сглаживание волшебной палочки
+                 */
+                CheckBox wizardSmoothingCheckbox = new CheckBox();
+                wizardSmoothingCheckbox.IsChecked = true;
+                wizardSmoothingCheckbox.Width = 25;
+                wizardSmoothingCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(wizardSmoothingCheckbox);
+                TextBlock wizardSmoothingLabel = new TextBlock();
+                wizardSmoothingLabel.Text = "Сглаживание";
+                wizardSmoothingLabel.Width = 75;
+                wizardSmoothingLabel.Margin = new Thickness(0, 15, 0, 15);
+                wizardSmoothingLabel.MouseUp += SetWizardSmoothing;
+                toolParams.Children.Add(wizardSmoothingLabel);
+                /*
+                 * конец сглаживание волшебной палочки
+                 */
+                /*
+                 * смеж пикс. волшебной палочки
+                 */
+                CheckBox neightboursPixelsCheckbox = new CheckBox();
+                neightboursPixelsCheckbox.IsChecked = true;
+                neightboursPixelsCheckbox.Width = 25;
+                neightboursPixelsCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(neightboursPixelsCheckbox);
+                TextBlock neightboursPixelsLabel = new TextBlock();
+                neightboursPixelsLabel.Text = "Смеж. пикс.";
+                neightboursPixelsLabel.Width = 75;
+                neightboursPixelsLabel.Margin = new Thickness(0, 15, 0, 15);
+                neightboursPixelsLabel.MouseUp += SetWizardNeightbourPixels;
+                toolParams.Children.Add(neightboursPixelsLabel);
+                /*
+                 * конец смеж пикс. волшебной палочки
+                 */
+                /*
+                 * образец со всех слоев волшебной палочки
+                 */
+                CheckBox templateAllLayersCheckbox = new CheckBox();
+                templateAllLayersCheckbox.IsChecked = false;
+                templateAllLayersCheckbox.Width = 25;
+                templateAllLayersCheckbox.Margin = new Thickness(10, 15, 0, 15);
+                toolParams.Children.Add(templateAllLayersCheckbox);
+                TextBlock templateAllLayersLabel = new TextBlock();
+                templateAllLayersLabel.Text = "Образец со всех слоев";
+                templateAllLayersLabel.Width = 75;
+                templateAllLayersLabel.Margin = new Thickness(0, 15, 0, 15);
+                templateAllLayersCheckbox.MouseUp += SetWizardTemplateAllLayers;
+                toolParams.Children.Add(templateAllLayersLabel);
+                /*
+                 * конец образец со всех слоев волшебной палочки
+                 */
+
+                /*
+                 * Конец волшебной палочки
+                 */
             }
             activeTool = currentTool;
 
@@ -1402,6 +2060,135 @@ namespace paint
             textColor = e.NewBrush;
             rasterText.Foreground = textColor;
         }
+        
+        private void SetTranslateSelect(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            translateSelect = (((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString());
+        }
+
+        private void SetTranslateAutoSelect(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void SetTranslateShowControls(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetSelectionShading(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        private void SetSelectionStyle(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            selectionStyle = ((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString();
+        }
+
+        private void SetLassoSmoothing(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void SetWizardTemplateAllLayers(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetWizardNeightbourPixels(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetWizardSmoothing(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetCropArea(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            cropArea = ((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString();
+        }
+
+        private void SetRemoveCropPixels(object sender, RoutedEventArgs e)
+        {
+            CheckBox newRemoveCropPixels = (CheckBox)sender;
+            removeCropPixels = ((bool)newRemoveCropPixels.IsChecked);
+        }
+
+        private void SetCropWithContent(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            cropWithContent = ((bool)newCropWithContent.IsChecked);
+        }
+
+        private void SetPipeteTemplate(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            pippeteTemplate = (((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString());
+        }
+
+        private void SetPippetShowRingExample(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            pippetShowRingExample = ((bool)newCropWithContent.IsChecked);
+        }
+        
+        private void SetRecoveryTemplateAllLayers(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            pippetShowRingExample = ((bool)newCropWithContent.IsChecked);
+        }
+
+        private void SetRecoveryMode(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            recoveryMode = ((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString();
+        }
+
+        private void SetZoomScaleDrag(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            zoomScaleDrag = ((bool)newCropWithContent.IsChecked);
+        }
+        private void SetZoomAllWindows(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            zoomAllWindows = ((bool)newCropWithContent.IsChecked);
+        }
+
+        private void SetZoomSettedScreenScale(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            zoomSettedScreenScale = ((bool)newCropWithContent.IsChecked);
+        }
+
+        private void SetHandScrollAllWindows(object sender, RoutedEventArgs e)
+        {
+            CheckBox newCropWithContent = (CheckBox)sender;
+            handScrollAllWindows = ((bool)newCropWithContent.IsChecked);
+        }
+
+        private void SetCursorSelect(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            cursorSelect = ((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString();
+        }
+
+        private void SetLightRange(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox newTextSize = (ComboBox)sender;
+            lightRange = ((ComboBoxItem)(newTextSize.Items[newTextSize.SelectedIndex])).Content.ToString();
+        }
+
+        private void SetLightExpon(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox expon = (ComboBox)sender;
+            lightExpon = ((double)(Double.Parse(((ComboBoxItem)(expon.Items[expon.SelectedIndex])).Content.ToString()) / 100));
+        }
+        
 
     }
 }
