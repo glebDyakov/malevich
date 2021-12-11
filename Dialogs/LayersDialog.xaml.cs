@@ -62,8 +62,10 @@ namespace paint.Dialogs
                 {
                     layerVisibility.ToolTip = "Показан";
                 }
-                layerContainer.MouseLeftButtonUp += SelectLayerHandler;
-                layerContainer.MouseRightButtonUp += ToggleVisibilityLayerHandler;
+                /*layerContainer.MouseLeftButtonUp += SelectLayerHandler;
+                layerContainer.MouseRightButtonUp += ToggleVisibilityLayerHandler;*/
+                layerName.MouseLeftButtonUp += SelectLayerHandler;
+                layerVisibility.MouseLeftButtonUp += ToggleVisibilityLayerHandler;
                 allLayers.Children.Add(layerContainer);
             }
             foreach (Dictionary<String, Object> layer in layers)
@@ -84,25 +86,23 @@ namespace paint.Dialogs
             {
                 layer["isActive"] = false;
             }
-            StackPanel currentLayer = (StackPanel)sender;
+            /*StackPanel currentLayer = (StackPanel)sender;*/
+            TextBlock currentIcon = (TextBlock)sender;
+            StackPanel currentLayer = ((StackPanel)(currentIcon.Parent));
             int currentLayerIdx = allLayers.Children.IndexOf(currentLayer);
             layers[currentLayerIdx]["isActive"] = true;
             currentLayer.Background = System.Windows.Media.Brushes.WhiteSmoke;
         }
         private void ToggleVisibilityLayerHandler(object sender, MouseButtonEventArgs e)
         {
-            StackPanel currentLayer = (StackPanel)sender;
+            /*StackPanel currentLayer = (StackPanel)sender;*/
+            Image currentIcon = (Image)sender;
+            StackPanel currentLayer = ((StackPanel)(currentIcon.Parent));
             int currentLayerIdx = allLayers.Children.IndexOf(currentLayer);
             layers[currentLayerIdx]["isHidden"] = !((bool)(layers[currentLayerIdx]["isHidden"]));
             if (((bool)(layers[currentLayerIdx]["isHidden"]))) { 
                 ((Image)(currentLayer.Children[0])).ToolTip = "Скрыт";
                 ((Image)(currentLayer.Children[0])).Opacity = 0.2;
-                /*foreach (UIElement stroke in canvas.Children)
-                {
-                    if (canvas.Children.IndexOf(stroke) == currentLayerIdx) {
-                        canvas.Children.Remove(stroke);
-                    }
-                }*/
                 foreach (Int32 totalStrokesId in totalStrokesIds)
                 {
                     if (((List<Int32>)(layers[currentLayerIdx]["strokes"])).Contains(totalStrokesId))
@@ -110,11 +110,9 @@ namespace paint.Dialogs
                         ((UIElement)(canvas.Children[totalStrokesId])).Opacity = 0.0;
                     }
                 }
-                /*canvas.Children[0].Opacity = 0.0;*/
             } else if (!((bool)(layers[currentLayerIdx]["isHidden"]))) {
                 ((Image)(currentLayer.Children[0])).ToolTip = "Показан";
                 ((Image)(currentLayer.Children[0])).Opacity = 1.0;
-                /*canvas.Children[0].Opacity = 1.0;*/
                 foreach (Int32 totalStrokesId in totalStrokesIds)
                 {
                     if (((List<Int32>)(layers[currentLayerIdx]["strokes"])).Contains(totalStrokesId))

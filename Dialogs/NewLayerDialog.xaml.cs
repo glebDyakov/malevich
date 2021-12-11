@@ -44,7 +44,6 @@ namespace paint.Dialogs
             List<Int32> layerStrokes = new List<Int32>();
             newLayer.Add("strokes", layerStrokes);
             layers.Add(newLayer);
-            debugger.Speak(layers.Count.ToString());
             this.Close();
         }
 

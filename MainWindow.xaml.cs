@@ -220,16 +220,8 @@ namespace paint
                 currentStroke.Points = pointCollection;
                 canvas.Children.Add(currentStroke);
 
-                int newStrokeId = totalStrokesIds.Count;
-                totalStrokesIds.Add(newStrokeId);
-                foreach (Dictionary<String, Object> layer in layers) {
-                    if (((bool)(layer["isActive"])))
-                    {
-                        List<Int32> layerStrokes = ((List<Int32>)(layer["strokes"]));
-                        layerStrokes.Add(newStrokeId);
-                        layer["strokes"] = layerStrokes;
-                    }
-                }
+                AddGraphObjectHandler();
+
             } else if (activeTool.ToolTip.ToString() == "Ластик")
             {
                 currentStroke = new Polyline();
@@ -2247,6 +2239,21 @@ namespace paint
 
                     
 
+                }
+            }
+        }
+
+        private void AddGraphObjectHandler()
+        {
+            int newStrokeId = totalStrokesIds.Count;
+            totalStrokesIds.Add(newStrokeId);
+            foreach (Dictionary<String, Object> layer in layers)
+            {
+                if (((bool)(layer["isActive"])))
+                {
+                    List<Int32> layerStrokes = ((List<Int32>)(layer["strokes"]));
+                    layerStrokes.Add(newStrokeId);
+                    layer["strokes"] = layerStrokes;
                 }
             }
         }
