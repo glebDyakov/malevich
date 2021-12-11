@@ -18,7 +18,8 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Padding="5" Background="SlateGray" Foreground="White">
             <MenuItem Header="Файл">
-
+                <MenuItem Foreground="Black"  Header="Открыть" Click="openMALHandler" />
+                <MenuItem Foreground="Black"  Header="Сохранить" Click="createMALHandler" />
             </MenuItem>
             <MenuItem Header="Редактирование">
 

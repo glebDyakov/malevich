@@ -33,3 +33,5 @@ C:\wpfprojects\paint\obj\Debug\Dialogs\CanvasSizeDialog.g.cs
 C:\wpfprojects\paint\obj\Debug\Dialogs\CanvasSizeDialog.baml
 C:\wpfprojects\paint\obj\Debug\Dialogs\LayersDialog.g.cs
 C:\wpfprojects\paint\obj\Debug\Dialogs\LayersDialog.baml
+C:\wpfprojects\paint\obj\Debug\Dialogs\NewLayerDialog.g.cs
+C:\wpfprojects\paint\obj\Debug\Dialogs\NewLayerDialog.baml

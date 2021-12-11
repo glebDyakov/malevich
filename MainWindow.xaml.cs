@@ -1,6 +1,8 @@
-﻿using Syncfusion.Windows.Tools.Controls;
+﻿using Microsoft.Win32;
+using Syncfusion.Windows.Tools.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Text;
@@ -34,11 +36,11 @@ namespace paint
         public Brush foreGroundColor;
         public Brush backGroundColor;
         public Point handPosition;
-        public Path penCurve;
+        public System.Windows.Shapes.Path penCurve;
         public PathSegmentCollection pathSegmentCollection;
         public BezierSegment bezierSegment;
         public  Point previousPoint;
-        public List<Int32> layers;
+        public List<Dictionary<String, Object>> layers;
         public bool isHand = false;
         public TextBlock lastTool;
         public SpeechSynthesizer debugger;
@@ -65,6 +67,7 @@ namespace paint
         public string cursorSelect = "Активные слои";
         public string lightRange = "Средние тона";
         public double lightExpon = 10;
+        public List<Int32> totalStrokesIds;
 
         public MainWindow()
         {
@@ -75,10 +78,17 @@ namespace paint
             activeTool = startActiveTool;
             foreGroundColor = System.Windows.Media.Brushes.Black;
             backGroundColor = System.Windows.Media.Brushes.White;
-            layers = new List<Int32>() {
-                0
+            Dictionary<String, Object>  defaultLayer = new Dictionary<String, Object>();
+            defaultLayer.Add("name", "Фон");
+            defaultLayer.Add("isActive", true);
+            defaultLayer.Add("isHidden", false);
+            List<Int32> layerStrokes = new List<Int32>();
+            defaultLayer.Add("strokes", layerStrokes);
+            layers = new List<Dictionary<String, Object>>() {
+                defaultLayer
             };
             debugger = new SpeechSynthesizer();
+            totalStrokesIds = new List<Int32>();
         }
 
         private void BrushMoveHandler(object sender, MouseEventArgs e)
@@ -164,7 +174,7 @@ namespace paint
             {
                 if (penCurve == null)
                 {
-                    penCurve = new Path();
+                    penCurve = new System.Windows.Shapes.Path();
                     penCurve.Stroke = foreGroundColor;
                     /*penCurve.StrokeThickness = 2;*/
                     penCurve.StrokeThickness = brushSizePts;
@@ -209,6 +219,17 @@ namespace paint
                 currentStroke.Opacity = brushOpacityPrsnts;
                 currentStroke.Points = pointCollection;
                 canvas.Children.Add(currentStroke);
+
+                int newStrokeId = totalStrokesIds.Count;
+                totalStrokesIds.Add(newStrokeId);
+                foreach (Dictionary<String, Object> layer in layers) {
+                    if (((bool)(layer["isActive"])))
+                    {
+                        List<Int32> layerStrokes = ((List<Int32>)(layer["strokes"]));
+                        layerStrokes.Add(newStrokeId);
+                        layer["strokes"] = layerStrokes;
+                    }
+                }
             } else if (activeTool.ToolTip.ToString() == "Ластик")
             {
                 currentStroke = new Polyline();
@@ -1377,8 +1398,8 @@ namespace paint
 
         private void CreateLayerHandler(object sender, RoutedEventArgs e)
         {
-            layers.Add(layers.Count);
-            debugger.Speak(layers.Count.ToString());
+            Dialogs.NewLayerDialog newLayerDialog = new Dialogs.NewLayerDialog(layers);
+            newLayerDialog.Show();
         }
 
         private void GlobalHotKeyHandler(object sender, KeyEventArgs e)
@@ -1985,7 +2006,7 @@ namespace paint
 
         private void OpenLayersDialogHandler(object sender, RoutedEventArgs e)
         {
-            Dialogs.LayersDialog layersDialog = new Dialogs.LayersDialog(layers);
+            Dialogs.LayersDialog layersDialog = new Dialogs.LayersDialog(layers, canvas, totalStrokesIds);
             layersDialog.Show();
         }
 
@@ -2188,7 +2209,47 @@ namespace paint
             ComboBox expon = (ComboBox)sender;
             lightExpon = ((double)(Double.Parse(((ComboBoxItem)(expon.Items[expon.SelectedIndex])).Content.ToString()) / 100));
         }
-        
+
+        private void createMALHandler(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "Новый документ";
+            sfd.DefaultExt = ".mal";
+            sfd.Filter = "Malevich documents (.mal)|*.mal";
+            bool? res = sfd.ShowDialog();
+            if (res != false)
+            {
+
+                using (Stream s = File.Open(sfd.FileName, FileMode.OpenOrCreate))
+                {
+                    using (StreamWriter sw = new StreamWriter(s))
+                    {
+                        sw.Write("malevich documents");
+                    }
+                }
+            }
+        }
+
+        private void openMALHandler(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.FileName = "Новый документ";
+            ofd.DefaultExt = ".mal";
+            ofd.Filter = "Malevich documents (.mal)|*.mal";
+            bool? res = ofd.ShowDialog();
+            if (res != false)
+            {
+                Stream myStream;
+                if ((myStream = ofd.OpenFile()) != null)
+                {
+                    string file_name = ofd.FileName;
+                    string file_text = File.ReadAllText(file_name);
+
+                    
+
+                }
+            }
+        }
 
     }
 }
